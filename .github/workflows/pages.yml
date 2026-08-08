@@ -1,0 +1,41 @@
+name: Publiceer op GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+      - claude/kozijnen-app-from-financials-8fwiwr
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      # enablement zet Pages zelf aan, zodat dit niet handmatig hoeft.
+      - uses: actions/configure-pages@v5
+        with:
+          enablement: true
+
+      - name: Zet de app-bestanden klaar
+        run: |
+          mkdir -p _site
+          cp index.html app.js styles.css manifest.json icon.svg sw.js _site/
+
+      - uses: actions/upload-pages-artifact@v3
+
+      - id: deployment
+        uses: actions/deploy-pages@v4
