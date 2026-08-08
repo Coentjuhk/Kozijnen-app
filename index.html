@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Kozijnen">
+  <meta name="theme-color" content="#2C3E50">
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="icon.svg">
+  <title>Kozijnen — uitgaven</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div id="app">
+
+    <!-- ===== OVERZICHT ===== -->
+    <section id="tab-overzicht" class="tab active">
+      <header class="app-header">
+        <h1>Overzicht</h1>
+        <div class="header-actions">
+          <button class="header-btn" onclick="copyOverzicht()" title="Overzicht kopiëren">📋</button>
+        </div>
+      </header>
+      <div class="scroll" id="overzicht-body"></div>
+    </section>
+
+    <!-- ===== UITGAVEN ===== -->
+    <section id="tab-uitgaven" class="tab">
+      <header class="app-header">
+        <h1>Uitgaven</h1>
+        <div class="header-actions">
+          <button class="header-btn" onclick="copyUitgaven()" title="Lijst kopiëren">📋</button>
+        </div>
+      </header>
+      <div class="search-bar">
+        <input id="zoek" type="search" placeholder="Zoek op omschrijving of bedrijf…" autocomplete="off" oninput="renderUitgaven()">
+      </div>
+      <div class="filters-bar" id="filters-bar"></div>
+      <div class="scroll" id="uitgaven-body"></div>
+    </section>
+
+    <!-- ===== NIEUW ===== -->
+    <section id="tab-nieuw" class="tab">
+      <header class="app-header">
+        <h1>Nieuwe uitgave</h1>
+      </header>
+      <div class="scroll">
+        <form id="add-form" class="form" onsubmit="submitNieuw(event)"></form>
+      </div>
+    </section>
+
+    <!-- ===== INSTELLINGEN ===== -->
+    <section id="tab-instellingen" class="tab">
+      <header class="app-header">
+        <h1>Instellingen</h1>
+      </header>
+      <div class="scroll" id="instellingen-body"></div>
+    </section>
+
+    <!-- ===== BOTTOM NAV ===== -->
+    <nav class="bottom-nav">
+      <button class="nav-item active" data-tab="overzicht" onclick="switchTab('overzicht')">
+        <span class="nav-icon">📊</span>
+        <span class="nav-label">Overzicht</span>
+      </button>
+      <button class="nav-item" data-tab="uitgaven" onclick="switchTab('uitgaven')">
+        <span class="nav-icon">🧾</span>
+        <span class="nav-label">Uitgaven</span>
+      </button>
+      <button class="nav-item nav-item-cta" data-tab="nieuw" onclick="switchTab('nieuw')">
+        <span class="nav-icon">➕</span>
+        <span class="nav-label">Nieuw</span>
+      </button>
+      <button class="nav-item" data-tab="instellingen" onclick="switchTab('instellingen')">
+        <span class="nav-icon">⚙️</span>
+        <span class="nav-label">Instellingen</span>
+      </button>
+    </nav>
+
+    <!-- ===== EDIT MODAL ===== -->
+    <div id="edit-modal" class="modal" hidden>
+      <div class="modal-sheet">
+        <div class="modal-drag-handle"></div>
+        <button class="modal-close" onclick="closeEdit()">✕</button>
+        <h2 class="modal-title">Uitgave bewerken</h2>
+        <form id="edit-form" class="form" onsubmit="submitEdit(event)"></form>
+      </div>
+    </div>
+
+    <!-- ===== TOAST ===== -->
+    <div id="toast" class="toast" hidden></div>
+
+    <input type="file" id="import-input" accept="application/json,.json" hidden onchange="importJSON(event)">
+
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
