@@ -1,4 +1,4 @@
-const CACHE = 'kozijnen-v1';
+const CACHE = 'kozijnen-v2';
 const FILES = [
   './',
   './index.html',
@@ -6,6 +6,9 @@ const FILES = [
   './app.js',
   './manifest.json',
   './icon.svg',
+  './icon-192.png',
+  './icon-512.png',
+  './apple-touch-icon.png',
 ];
 
 self.addEventListener('install', e => {

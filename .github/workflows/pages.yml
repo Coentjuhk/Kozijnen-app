@@ -33,7 +33,13 @@ jobs:
       - name: Zet de app-bestanden klaar
         run: |
           mkdir -p _site
-          cp index.html app.js styles.css manifest.json icon.svg sw.js _site/
+          rsync -a \
+            --exclude '.git' \
+            --exclude '.github' \
+            --exclude '_site' \
+            --exclude 'README.md' \
+            ./ _site/
+          ls -la _site
 
       - uses: actions/upload-pages-artifact@v3
 
