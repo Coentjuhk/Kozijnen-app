@@ -18,6 +18,10 @@ concurrency:
 
 jobs:
   deploy:
+    # Pages accepteert alleen een deploy vanaf de default branch. Beide
+    # branches krijgen dezelfde commit, dus de andere slaan we over in
+    # plaats van hem te laten falen. Werkt ook als de default verandert.
+    if: github.ref_name == github.event.repository.default_branch
     runs-on: ubuntu-latest
     environment:
       name: github-pages
